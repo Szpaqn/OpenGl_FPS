@@ -12,10 +12,11 @@ import javax.microedition.khronos.opengles.GL10;
 public class MyGLRenderer implements GLSurfaceView.Renderer {
    Context context;   // Application's context
 
+
 //   Triangle triangle;
-   private Pyramid pyramid;
+//   private Pyramid pyramid;
 //   Square square;
-   private Cube cube;
+   private TextureCube cube;
 
    // Rotational angle and speed
 //   private float angleTriangle = 0.0f;
@@ -36,7 +37,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 //      triangle = new Triangle();
 //      pyramid = new Pyramid();
 //      square = new Square();
-      cube = new Cube();
+      cube = new TextureCube();
    }
 
    
@@ -47,13 +48,16 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
       gl.glClearDepthf(1.0f);            // Set depth's clear-value to farthest
       gl.glEnable(GL10.GL_DEPTH_TEST);   // Enables depth-buffer for hidden surface removal
       gl.glDepthFunc(GL10.GL_LEQUAL);    // The type of depth testing to do
+      gl.glEnable(GL10.GL_BLEND);
       gl.glHint(GL10.GL_PERSPECTIVE_CORRECTION_HINT, GL10.GL_NICEST);  // nice perspective view
       gl.glShadeModel(GL10.GL_SMOOTH);   // Enable smooth shading of color
       gl.glDisable(GL10.GL_DITHER);      // Disable dithering for better performance
   
       // You OpenGL|ES initialization code here
-      // ......
-   }
+      cube.loadTexture(gl, context);    // Load image into Texture
+      gl.glEnable(GL10.GL_TEXTURE_2D);  // Enable texture
+
+      }
    
    // Call back after onSurfaceCreated() or whenever the window's size changes
    @Override
@@ -97,7 +101,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
       gl.glTranslatef(0f, 0.0f, -6.0f);  // Translate right and into the screen
 //      gl.glRotatef(angleQuad, 1.0f, 0.0f, 0.0f); // Rotate the square about the x-axis
 //      square.draw(gl);                       // Draw quad
-      gl.glRotatef(angleCube, 0.1f, 1f, -0.1f);
+      gl.glRotatef(angleCube, 0.4f, 0.9f, -0.1f);
       cube.draw(gl);
 
 

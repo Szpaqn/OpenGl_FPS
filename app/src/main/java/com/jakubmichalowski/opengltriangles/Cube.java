@@ -10,12 +10,12 @@ public class Cube {
    private int numFaces = 6;
    
    private float[][] colors = {  // Colors of the 6 faces
-      {1.0f, 0.5f, 0.0f, 0.8f},  // 0. orange
-      {1.0f, 0.0f, 1.0f, 0.8f},  // 1. violet
-      {0.0f, 1.0f, 0.0f, 0.80f},  // 2. green
-      {0.0f, 0.0f, 1.0f, 0.8f},  // 3. blue
-      {1.0f, 0.0f, 0.0f, 0.8f},  // 4. red
-      {1.0f, 1.0f, 0.0f, 0.8f}   // 5. yellow
+      {1.0f, 0.5f, 0.0f, 0.6f},  // 0. orange
+      {1.0f, 0.0f, 1.0f, 0.6f},  // 1. violet
+      {0.0f, 1.0f, 0.0f, 0.6f},  // 2. green
+      {0.0f, 0.0f, 1.0f, 0.6f},  // 3. blue
+      {1.0f, 0.0f, 0.0f, 0.6f},  // 4. red
+      {1.0f, 1.0f, 0.0f, 0.6f}   // 5. yellow
    };
   
    private float[] vertices = {  // Vertices of the 6 faces
@@ -35,10 +35,10 @@ public class Cube {
       -1.0f,  1.0f, -1.0f,  // 5. left-top-back
       -1.0f,  1.0f,  1.0f,  // 2. left-top-front
       // RIGHT
-       1.0f, -1.0f,  1.0f,  // 1. right-bottom-front
-       1.0f, -1.0f, -1.0f,  // 6. right-bottom-back
-       1.0f,  1.0f,  1.0f,  // 3. right-top-front
-       1.0f,  1.0f, -1.0f,  // 7. right-top-back
+       2.0f, -0.0f,  2.0f,  // 1. right-bottom-front
+       2.0f, -0.0f, -0.0f,  // 6. right-bottom-back
+       2.0f,  2.0f,  2.0f,  // 3. right-top-front
+       2.0f,  2.0f, -0.0f,  // 7. right-top-back
       // TOP
       -1.0f,  1.0f,  1.0f,  // 2. left-top-front
        1.0f,  1.0f,  1.0f,  // 3. right-top-front
@@ -63,9 +63,9 @@ public class Cube {
   
    // Draw the shape
    public void draw(GL10 gl) {
-      gl.glFrontFace(GL10.GL_CCW);    // Front face in counter-clockwise orientation
-      gl.glEnable(GL10.GL_CULL_FACE); // Enable cull face
-      gl.glCullFace(GL10.GL_BACK);    // Cull the back face (don't display)
+//      gl.glFrontFace(GL10.GL_CCW);    // Front face in counter-clockwise orientation
+//      gl.glEnable(GL10.GL_CULL_FACE); // Enable cull face (don't draw what cannot be seen)
+//      gl.glCullFace(GL10.GL_BACK);    // Cull the back face (don't display)
   
       gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
       gl.glVertexPointer(3, GL10.GL_FLOAT, 0, vertexBuffer);
@@ -78,6 +78,6 @@ public class Cube {
          gl.glDrawArrays(GL10.GL_TRIANGLE_STRIP, face*4, 4);
       }
       gl.glDisableClientState(GL10.GL_VERTEX_ARRAY);
-      gl.glDisable(GL10.GL_CULL_FACE);
+//      gl.glDisable(GL10.GL_CULL_FACE);
    }
 }
