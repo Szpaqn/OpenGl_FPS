@@ -12,23 +12,33 @@ import javax.microedition.khronos.opengles.GL10;
 public class MyGLRenderer implements GLSurfaceView.Renderer {
    Context context;   // Application's context
 
-   Triangle triangle;
-   Square square;
+//   Triangle triangle;
+   private Pyramid pyramid;
+//   Square square;
+   private Cube cube;
 
    // Rotational angle and speed
-   private float angleTriangle = 0.0f;
-   private float angleQuad = 0.0f;
-   private float speedTriangle = 0.5f;
-   private float speedQuad = -0.4f;
+//   private float angleTriangle = 0.0f;
+//   private float angleQuad = 0.0f;
+//   private float speedTriangle = 0.5f;
+//   private float speedQuad = -0.4f;
+
+   private static float anglePyramid = 0; // Rotational angle in degree for pyramid
+   private static float angleCube = 0;    // Rotational angle in degree for cube
+   private static float speedPyramid = 2.0f; // Rotational speed for pyramid
+//   private static float speedCube = -1.5f;   // Rotational speed for cube
 
    // Constructor with global application context
    public MyGLRenderer(Context context) {
 
       this.context = context;
 
-      triangle = new Triangle();
-      square = new Square();
+//      triangle = new Triangle();
+//      pyramid = new Pyramid();
+//      square = new Square();
+      cube = new Cube();
    }
+
    
    // Call back when the surface is first created or re-created
    @Override
@@ -74,20 +84,29 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
       gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
      
       // You OpenGL|ES rendering code here
-      gl.glLoadIdentity();    //Reset model-view matrix
-      gl.glTranslatef(-1.5f, 0.0f, -6.0f); // Translate left and into the screen
-      gl.glRotatef(angleTriangle, 0.0f, 1.0f, 0.0f); // Rotate the triangle about the y-axis
-      triangle.draw(gl);                   // Draw triangle
+//      gl.glLoadIdentity();    //Reset model-view matrix
+//      gl.glTranslatef(0, 0.0f, -6.0f); // Translate left and into the screen
+////      gl.glRotatef(angleTriangle, 0.0f, 1.0f, 0.0f); // Rotate the triangle about the y-axis
+////      triangle.draw(gl);                   // Draw triangle
+//      gl.glRotatef(anglePyramid, 0.1f, 1f, -0.1f); // Rotate
+//      pyramid.draw(gl);                              // Draw the pyramid
+
 
       // Translate right, relative to the previous translation
       gl.glLoadIdentity();                 // Reset the mode-view matrix
-      gl.glTranslatef(1.5f, 0.0f, -6.0f);  // Translate right and into the screen
-      gl.glRotatef(angleQuad, 1.0f, 0.0f, 0.0f); // Rotate the square about the x-axis
-      square.draw(gl);                       // Draw quad
+      gl.glTranslatef(0f, 0.0f, -6.0f);  // Translate right and into the screen
+//      gl.glRotatef(angleQuad, 1.0f, 0.0f, 0.0f); // Rotate the square about the x-axis
+//      square.draw(gl);                       // Draw quad
+      gl.glRotatef(angleCube, 0.1f, 1f, -0.1f);
+      cube.draw(gl);
 
 
       // Update the rotational angle after each refresh
-      angleTriangle += speedTriangle;
-      angleQuad += speedQuad;
+//      angleTriangle += speedTriangle;
+//      anglePyramid += speedPyramid;
+//      angleQuad += speedQuad;
+//      angleCube += speedCube;
+      angleCube += speedPyramid;
+
    }
 }
