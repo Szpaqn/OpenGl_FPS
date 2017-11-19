@@ -12,6 +12,34 @@ import javax.microedition.khronos.opengles.GL10;
 public class MyGLRenderer implements GLSurfaceView.Renderer {
    Context context;   // Application's context
 
+   public float getZ() {
+      return z;
+   }
+
+   public void setZ(float z) {
+      this.z = z;
+   }
+
+   private float z;
+
+   public float getX() {
+      return x;
+   }
+
+   public void setX(float x) {
+      this.x = x;
+   }
+
+   public float getY() {
+      return y;
+   }
+
+   public void setY(float y) {
+      this.y = y;
+   }
+
+   private float x;
+   private float y;
 
 //   Triangle triangle;
 //   private Pyramid pyramid;
@@ -38,6 +66,11 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 //      pyramid = new Pyramid();
 //      square = new Square();
       cube = new TextureCube();
+//      cube2 = new Cube2();
+      z = -6;
+      x = 0;
+      y = 0;
+
    }
 
    
@@ -73,7 +106,6 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
       gl.glLoadIdentity();                 // Reset projection matrix
       // Use perspective projection
       GLU.gluPerspective(gl, 45, aspect, 0.1f, 100.f);
-  
       gl.glMatrixMode(GL10.GL_MODELVIEW);  // Select model-view matrix
       gl.glLoadIdentity();                 // Reset
   
@@ -86,7 +118,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
    public void onDrawFrame(GL10 gl) {
       // Clear color and depth buffers using clear-value set earlier
       gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
-     
+
       // You OpenGL|ES rendering code here
 //      gl.glLoadIdentity();    //Reset model-view matrix
 //      gl.glTranslatef(0, 0.0f, -6.0f); // Translate left and into the screen
@@ -98,12 +130,18 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 
       // Translate right, relative to the previous translation
       gl.glLoadIdentity();                 // Reset the mode-view matrix
-      gl.glTranslatef(0f, 0.0f, -6.0f);  // Translate right and into the screen
+
+//      gl.glTranslatef(0.0f, 0.0f, 0);  // Translate right and into the screen
+      GLU.gluLookAt(gl, 0, 0, z, 0, 0, 0, 0, 1, 0);
+//      gl.glRotatef(angleCube, 0.4f, 0.9f, -0.1f);
 //      gl.glRotatef(angleQuad, 1.0f, 0.0f, 0.0f); // Rotate the square about the x-axis
-//      square.draw(gl);                       // Draw quad
+//      square.draw(gl);                       // Draw
       gl.glRotatef(angleCube, 0.4f, 0.9f, -0.1f);
       cube.draw(gl);
 
+
+
+//      cube2.draw();
 
       // Update the rotational angle after each refresh
 //      angleTriangle += speedTriangle;
