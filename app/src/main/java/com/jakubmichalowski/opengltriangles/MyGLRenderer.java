@@ -12,6 +12,16 @@ import javax.microedition.khronos.opengles.GL10;
 public class MyGLRenderer implements GLSurfaceView.Renderer {
    Context context;   // Application's context
 
+   private float x;
+
+   private float upDown;
+   private float leftRight;
+   private float prevLR;
+   private float prevUD;
+   //   private float speedTriangle = 0.5f;
+//   private float angleQuad = 0.0f;
+//   private float angleTriangle = 0.0f;
+
    public float getZ() {
       return z;
    }
@@ -30,16 +40,21 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
       this.x = x;
    }
 
-   public float getY() {
-      return y;
+   public float getUpDown() {
+      return upDown;
    }
 
-   public void setY(float y) {
-      this.y = y;
+   public void setUpDown(float upDown) {
+      this.upDown = upDown;
    }
 
-   private float x;
-   private float y;
+   public float getLeftRight() {
+      return leftRight;
+   }
+
+   public void setLeftRight(float leftRight) {
+      this.leftRight = leftRight;
+   }
 
 //   Triangle triangle;
 //   private Pyramid pyramid;
@@ -47,9 +62,6 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
    private TextureCube cube;
 
    // Rotational angle and speed
-//   private float angleTriangle = 0.0f;
-//   private float angleQuad = 0.0f;
-//   private float speedTriangle = 0.5f;
 //   private float speedQuad = -0.4f;
 
    private static float anglePyramid = 0; // Rotational angle in degree for pyramid
@@ -67,9 +79,11 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 //      square = new Square();
       cube = new TextureCube();
 //      cube2 = new Cube2();
-      z = -6;
+      z = 0;
       x = 0;
-      y = 0;
+      upDown = -1;
+      prevLR = leftRight;
+      prevUD = upDown;
 
    }
 
@@ -104,8 +118,10 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
       // Setup perspective projection, with aspect ratio matches viewport
       gl.glMatrixMode(GL10.GL_PROJECTION); // Select projection matrix
       gl.glLoadIdentity();                 // Reset projection matrix
+
+//      gl.glFrustumf(x, upDown, 0f, 0, 0, 0);
       // Use perspective projection
-      GLU.gluPerspective(gl, 45, aspect, 0.1f, 100.f);
+      GLU.gluPerspective(gl, 60, aspect, 0.1f, 100.f);
       gl.glMatrixMode(GL10.GL_MODELVIEW);  // Select model-view matrix
       gl.glLoadIdentity();                 // Reset
   
@@ -122,7 +138,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
       // You OpenGL|ES rendering code here
 //      gl.glLoadIdentity();    //Reset model-view matrix
 //      gl.glTranslatef(0, 0.0f, -6.0f); // Translate left and into the screen
-////      gl.glRotatef(angleTriangle, 0.0f, 1.0f, 0.0f); // Rotate the triangle about the y-axis
+////      gl.glRotatef(angleTriangle, 0.0f, 1.0f, 0.0f); // Rotate the triangle about the upDown-axis
 ////      triangle.draw(gl);                   // Draw triangle
 //      gl.glRotatef(anglePyramid, 0.1f, 1f, -0.1f); // Rotate
 //      pyramid.draw(gl);                              // Draw the pyramid
@@ -131,15 +147,23 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
       // Translate right, relative to the previous translation
       gl.glLoadIdentity();                 // Reset the mode-view matrix
 
-//      gl.glTranslatef(0.0f, 0.0f, 0);  // Translate right and into the screen
-      GLU.gluLookAt(gl, 0, 0, z, 0, 0, 0, 0, 1, 0);
+      gl.glTranslatef(x, 0, z);  // Translate right and into the screen
+//      gl.glLoadIdentity ();
+      if(upDown < prevUD){ //w górę?
+
+      } else if(upDown > prevUD){ // w dół
+
+      }
+//      GLU.gluLookAt(gl, x, 0, z, 0, 0, 0, 0,1,0);  //TODO: sprawdzić http://nehe.gamedev.net/article/camera_class_tutorial/18010/ oraz https://www.opengl.org/discussion_boards/showthread.php/178047-about-gluLookAt-function-and-how-to-rotate-the-camera
+//      GLU.gluPerspective(gl, 45, x, 0.1f, 100.f);
+
+//      Log.d("GL", "onDrawFrame: " + String.valueOf(upDown));
 //      gl.glRotatef(angleCube, 0.4f, 0.9f, -0.1f);
-//      gl.glRotatef(angleQuad, 1.0f, 0.0f, 0.0f); // Rotate the square about the x-axis
+//      gl.glRotatef(angleQuad, 1.0f, 0.0f, 0.0f); // Rotate the s                                                                                                                                                                                                                                                                                                                                                                                                                                                            quare about the x-axis
 //      square.draw(gl);                       // Draw
-      gl.glRotatef(angleCube, 0.4f, 0.9f, -0.1f);
+//      gl.glRotatef(angleCube, 0.4f, 0.9f, -0.1f);
+
       cube.draw(gl);
-
-
 
 //      cube2.draw();
 
@@ -149,6 +173,8 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 //      angleQuad += speedQuad;
 //      angleCube += speedCube;
       angleCube += speedPyramid;
+      prevLR = x;
+      prevUD = upDown;
 
    }
 }

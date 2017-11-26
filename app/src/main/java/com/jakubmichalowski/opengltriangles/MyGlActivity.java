@@ -46,29 +46,42 @@ public class MyGlActivity extends AppCompatActivity {
         float y = e.getY();
 
 
+        float dx = previousX - x;
+        float dy = previousY - y;
 
-        String log = "onTouchEvent: X = " + String.valueOf(x) + " Y =" + y;
+        String log = "onTouchEvent: X = " + String.valueOf(x) + " Y =" + String.valueOf(y) + " glView.getWidth()/2 = " + glView.getWidth()/2 + " glView.getHeight()/2 = " + glView.getHeight()/2;
         Log.d("FPS", log );
-        if(x < glView.getWidth()/2){
-            if(y < glView.getHeight()/2){
-                glRenderer.setZ((float)glRenderer.getZ() + (float)0.1);
-            } else {
-                glRenderer.setZ((float)glRenderer.getZ() + (float)-0.1);
+        if(x < (glView.getWidth()/2)){
+            if(y < (glView.getHeight()/2)){
+                Log.d("FPS", "if(y < (glView.getHeight()/2 - glView.getHeight()/10))" );
+                glRenderer.setZ(glRenderer.getZ() + 0.1f);
+            } else if(y > (glView.getHeight()/2 + 2*(glView.getHeight()/10))){
+                Log.d("FPS", "if(x > (glView.getHeight()/2 + glView.getHeight()/10)" );
+                glRenderer.setZ(glRenderer.getZ() -0.1f);
+            } else if(y >= (glView.getHeight()/2) && y <= (glView.getHeight()/2 + 2*(glView.getHeight()/10))){
+                if(dx < 0){ //w prawo
+                    glRenderer.setX(glRenderer.getX() + 0.1f);
+                    Log.d("FPS", "if(dx < 0)" );
+                } else { // w lewo
+                    glRenderer.setX(glRenderer.getX() - 0.1f);
+                    Log.d("FPS", "if(dx >= 0)" );
+                }
             }
         } else {
-            float dx = previousX - x;
-            float dy = previousY - y;
 
             if(dx < 0){ //w prawo
-                glRenderer.setX(glRenderer.getX() + (float)0.1);
+                glRenderer.setLeftRight(glRenderer.getLeftRight() + 0.1f);
+                Log.d("FPS", "if(dx < 0)" );
             } else { // w lewo
-                glRenderer.setX(glRenderer.getX() - (float)0.1);
+                glRenderer.setLeftRight(glRenderer.getLeftRight() - 0.1f);
+                Log.d("FPS", "if(dx >= 0)" );
             }
-
             if(dy < 0){ //w górę
-                glRenderer.setY(glRenderer.getY() + (float)0.1);
+                glRenderer.setUpDown(glRenderer.getUpDown() + (float)0.2);
+                Log.d("FPS", "if(dy < 0)" );
             } else { // w dół
-                glRenderer.setY(glRenderer.getY() - (float)0.1);
+                glRenderer.setUpDown(glRenderer.getUpDown() + (float)-0.2);
+                Log.d("FPS", "if(dy >= 0)" );
             }
 
         }
