@@ -1,0 +1,2 @@
+# OpenGLTriangles
+Projekt na uczelnię.
