@@ -147,13 +147,14 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
       // Translate right, relative to the previous translation
       gl.glLoadIdentity();                 // Reset the mode-view matrix
 
-      gl.glTranslatef(x, 0, z);  // Translate right and into the screen
+//      gl.glTranslatef(x, 0, z);  // Translate right and into the screen
 //      gl.glLoadIdentity ();
-      if(upDown < prevUD){ //w górę?
-
-      } else if(upDown > prevUD){ // w dół
-
-      }
+//      if(upDown < prevUD){ //w górę?
+//
+//      } else if(upDown > prevUD){ // w dół
+//
+//      }
+       GLU.gluLookAt(gl, x, 0, z,leftRight,upDown,0,0,1,0);
 //      GLU.gluLookAt(gl, x, 0, z, 0, 0, 0, 0,1,0);  //TODO: sprawdzić http://nehe.gamedev.net/article/camera_class_tutorial/18010/ oraz https://www.opengl.org/discussion_boards/showthread.php/178047-about-gluLookAt-function-and-how-to-rotate-the-camera
 //      GLU.gluPerspective(gl, 45, x, 0.1f, 100.f);
 
