@@ -3,70 +3,92 @@ package com.jakubmichalowski.opengltriangles;
 import android.content.Context;
 import android.opengl.GLSurfaceView;
 import android.opengl.GLU;
+import java.lang.Math;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
+
+import static java.lang.Math.cos;
+import static java.lang.Math.sin;
+
 /**
  *  OpenGL Custom renderer used with GLSurfaceView 
  */
 public class MyGLRenderer implements GLSurfaceView.Renderer {
    Context context;   // Application's context
 
-   private float x;
+   private float pi;
 
-   private float upDown;
-   private float leftRight;
-   private float prevLR;
-   private float prevUD;
+   private float xpos;
+   private float ypos;
+   private float zpos;
+
+   public float getXrot() {
+      return xrot;
+   }
+
+   public void addToXrot(float dx) {
+      this.xrot += dx;
+   }
+
+   public float getYrot() {
+      return yrot;
+   }
+
+   public void addToYrot(float dy) {
+      this.yrot += dy;
+   }
+
+   private float xrot;
+   private float yrot;
    //   private float speedTriangle = 0.5f;
 //   private float angleQuad = 0.0f;
 //   private float angleTriangle = 0.0f;
 
-   public float getZ() {
-      return z;
+   public void goForward(){
+      float xrotrad, yrotrad;
+      yrotrad = (yrot / 180 * pi);
+      xrotrad = (xrot / 180 * pi);
+      xpos += sin(yrotrad);
+      zpos -= cos(yrotrad);
+      ypos -= sin(xrotrad);
    }
 
-   public void setZ(float z) {
-      this.z = z;
+   public void goBack(){
+      float xrotrad, yrotrad;
+      yrotrad = (yrot / 180 * pi);
+      xrotrad = (xrot / 180 * pi);
+      xpos -= sin(yrotrad);
+      zpos += cos(yrotrad);
+      ypos += sin(xrotrad);
    }
 
-   private float z;
-
-   public float getX() {
-      return x;
+   public void strafeLeft() {
+      float yrotrad;
+      yrotrad = (yrot / 180 * pi);
+      xpos -= cos(yrotrad) * 0.1f;
+      zpos -= sin(yrotrad) * 0.1f;
    }
 
-   public void setX(float x) {
-      this.x = x;
+   public void strafeRight() {
+      float yrotrad;
+      yrotrad = (yrot / 180 * pi);
+      xpos += cos(yrotrad) * 0.1f;
+      zpos += sin(yrotrad) * 0.1f;
    }
 
-   public float getUpDown() {
-      return upDown;
-   }
-
-   public void setUpDown(float upDown) {
-      this.upDown = upDown;
-   }
-
-   public float getLeftRight() {
-      return leftRight;
-   }
-
-   public void setLeftRight(float leftRight) {
-      this.leftRight = leftRight;
-   }
 
 //   Triangle triangle;
 //   private Pyramid pyramid;
 //   Square square;
-   private TextureCube cube;
+   private Cube cube;
 
    // Rotational angle and speed
 //   private float speedQuad = -0.4f;
 
-   private static float anglePyramid = 0; // Rotational angle in degree for pyramid
-   private static float angleCube = 0;    // Rotational angle in degree for cube
-   private static float speedPyramid = 2.0f; // Rotational speed for pyramid
+//   private static float anglePyramid = 0; // Rotational angle in degree for pyramid
+//   private static float angleCube = 0;    // Rotational angle in degree for cube
+//   private static float speedPyramid = 2.0f; // Rotational speed for pyramid
 //   private static float speedCube = -1.5f;   // Rotational speed for cube
 
    // Constructor with global application context
@@ -74,16 +96,20 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 
       this.context = context;
 
+      pi = 3.141592654f;
 //      triangle = new Triangle();
 //      pyramid = new Pyramid();
 //      square = new Square();
-      cube = new TextureCube();
+//      cube = new TextureCube();
 //      cube2 = new Cube2();
-      z = 0;
-      x = 0;
-      upDown = -1;
-      prevLR = leftRight;
-      prevUD = upDown;
+      cube = new Cube();
+
+      xpos = 0;
+      ypos = 0;
+      zpos = 5;
+      xrot = 0;
+      yrot = 0;
+
 
    }
 
@@ -101,9 +127,9 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
       gl.glDisable(GL10.GL_DITHER);      // Disable dithering for better performance
   
       // You OpenGL|ES initialization code here
-      cube.loadTexture(gl, context);    // Load image into Texture
-      gl.glEnable(GL10.GL_TEXTURE_2D);  // Enable texture
-
+//      cube.loadTexture(gl, context);    // Load image into Texture
+//      gl.glEnable(GL10.GL_TEXTURE_2D);  // Enable texture
+//
       }
    
    // Call back after onSurfaceCreated() or whenever the window's size changes
@@ -154,9 +180,14 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 //      } else if(upDown > prevUD){ // w dół
 //
 //      }
-       GLU.gluLookAt(gl, x, 0, z,leftRight,upDown,0,0,1,0);
+
+//       GLU.gluLookAt(gl, x, 0, z,leftRight,upDown,0,0,1,0);
 //      GLU.gluLookAt(gl, x, 0, z, 0, 0, 0, 0,1,0);  //TODO: sprawdzić http://nehe.gamedev.net/article/camera_class_tutorial/18010/ oraz https://www.opengl.org/discussion_boards/showthread.php/178047-about-gluLookAt-function-and-how-to-rotate-the-camera
 //      GLU.gluPerspective(gl, 45, x, 0.1f, 100.f);
+
+      gl.glRotatef(xrot, 1.0f, 0, 0);
+      gl.glRotatef(yrot, 0, 1.0f, 0);
+      gl.glTranslatef(-xpos,-ypos, -zpos);
 
 //      Log.d("GL", "onDrawFrame: " + String.valueOf(upDown));
 //      gl.glRotatef(angleCube, 0.4f, 0.9f, -0.1f);
@@ -173,9 +204,6 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 //      anglePyramid += speedPyramid;
 //      angleQuad += speedQuad;
 //      angleCube += speedCube;
-      angleCube += speedPyramid;
-      prevLR = x;
-      prevUD = upDown;
-
+//      angleCube += speedPyramid;
    }
 }
