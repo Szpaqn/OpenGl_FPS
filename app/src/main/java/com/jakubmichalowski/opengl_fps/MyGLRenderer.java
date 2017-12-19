@@ -79,16 +79,16 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 
 
 //   Triangle triangle;
-//   private Pyramid pyramid;
+   private Pyramid pyramid;
 //   Square square;
    private Cube cube;
 
    // Rotational angle and speed
 //   private float speedQuad = -0.4f;
 
-//   private static float anglePyramid = 0; // Rotational angle in degree for pyramid
+   private static float anglePyramid = 0; // Rotational angle in degree for pyramid
 //   private static float angleCube = 0;    // Rotational angle in degree for cube
-//   private static float speedPyramid = 2.0f; // Rotational speed for pyramid
+   private static float speedPyramid = 2.0f; // Rotational speed for pyramid
 //   private static float speedCube = -1.5f;   // Rotational speed for cube
 
    // Constructor with global application context
@@ -98,7 +98,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 
       pi = 3.141592654f;
 //      triangle = new Triangle();
-//      pyramid = new Pyramid();
+      pyramid = new Pyramid();
 //      square = new Square();
 //      cube = new TextureCube();
 //      cube2 = new Cube2();
@@ -162,12 +162,13 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
       gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
 
       // You OpenGL|ES rendering code here
-//      gl.glLoadIdentity();    //Reset model-view matrix
-//      gl.glTranslatef(0, 0.0f, -6.0f); // Translate left and into the screen
+      gl.glLoadIdentity();    //Reset model-view matrix
 ////      gl.glRotatef(angleTriangle, 0.0f, 1.0f, 0.0f); // Rotate the triangle about the upDown-axis
 ////      triangle.draw(gl);                   // Draw triangle
-//      gl.glRotatef(anglePyramid, 0.1f, 1f, -0.1f); // Rotate
-//      pyramid.draw(gl);                              // Draw the pyramid
+      gl.glRotatef(xrot, 1.0f, 0, 0);
+      gl.glRotatef(yrot, 0, 1.0f, 0);
+      gl.glTranslatef(-xpos-3,-ypos, -zpos); // Translate left and into the screen
+      pyramid.draw(gl);                              // Draw the pyramid
 
 
       // Translate right, relative to the previous translation
@@ -184,11 +185,11 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 //       GLU.gluLookAt(gl, x, 0, z,leftRight,upDown,0,0,1,0);
 //      GLU.gluLookAt(gl, x, 0, z, 0, 0, 0, 0,1,0);  //TODO: sprawdzić http://nehe.gamedev.net/article/camera_class_tutorial/18010/ oraz https://www.opengl.org/discussion_boards/showthread.php/178047-about-gluLookAt-function-and-how-to-rotate-the-camera
 //      GLU.gluPerspective(gl, 45, x, 0.1f, 100.f);
-
-      if(zpos < 1.1f) {
-
-         zpos = 1.1f;
-      }
+//
+//      if(zpos < 1.1f) {
+//
+//         zpos = 1.1f;
+//      }
       gl.glRotatef(xrot, 1.0f, 0, 0);
       gl.glRotatef(yrot, 0, 1.0f, 0);
       gl.glTranslatef(-xpos,-ypos, -zpos);
@@ -205,7 +206,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 
       // Update the rotational angle after each refresh
 //      angleTriangle += speedTriangle;
-//      anglePyramid += speedPyramid;
+      anglePyramid += speedPyramid;
 //      angleQuad += speedQuad;
 //      angleCube += speedCube;
 //      angleCube += speedPyramid;
