@@ -1,9 +1,8 @@
-package com.jakubmichalowski.opengltriangles;
+package com.jakubmichalowski.opengl_fps;
 
 import android.support.v7.app.AppCompatActivity;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MotionEvent;
 
 public class MyGlActivity extends AppCompatActivity {
@@ -58,24 +57,24 @@ public class MyGlActivity extends AppCompatActivity {
 //        dy = dy/10;
 
         String log = "onTouchEvent: X = " + String.valueOf(x) + " Y =" + String.valueOf(y) + " glView.getWidth()/2 = " + glView.getWidth()/2 + " glView.getHeight()/2 = " + glView.getHeight()/2;
-        Log.d("FPS", log );
+//        Log.d("FPS", log );
         if(x < (glView.getWidth()/2)){
             if(y < (glView.getHeight()/2)){
-                Log.d("FPS", "if(y < (glView.getHeight()/2 - glView.getHeight()/10))" );
+//                Log.d("FPS", "if(y < (glView.getHeight()/2 - glView.getHeight()/10))" );
 //                glRenderer.setZ(glRenderer.getZ() + 0.1f);
                 glRenderer.goForward();
             } else if(y > (glView.getHeight()/2 + 2*(glView.getHeight()/10))){
-                Log.d("FPS", "if(x > (glView.getHeight()/2 + glView.getHeight()/10)" );
+//                Log.d("FPS", "if(x > (glView.getHeight()/2 + glView.getHeight()/10)" );
 //                glRenderer.setZ(glRenderer.getZ() -0.1f);
                 glRenderer.goBack();
             } else if(y >= (glView.getHeight()/2) && y <= (glView.getHeight()/2 + 2*(glView.getHeight()/10))){
                 if(dx < 0){ //w prawo
 //                    glRenderer.setX(glRenderer.getX() + 0.1f);
-                    Log.d("FPS", "if(dx < 0)" );
+//                    Log.d("FPS", "if(dx < 0)" );
                     glRenderer.strafeLeft();
                 } else { // w lewo
 //                    glRenderer.setX(glRenderer.getX() - 0.1f);
-                    Log.d("FPS", "if(dx >= 0)" );
+//                    Log.d("FPS", "if(dx >= 0)" );
                     glRenderer.strafeRight();
                 }
             }
@@ -84,11 +83,11 @@ public class MyGlActivity extends AppCompatActivity {
 
             } else if (dx < 0) { //w prawo
 //                glRenderer.setLeftRight(glRenderer.getLeftRight() + 0.1f);
-                Log.d("FPS", "if(dx < 0)");
+//                Log.d("FPS", "if(dx < 0)");
                 glRenderer.addToYrot(-1f);
             } else { // w lewo
 //                glRenderer.setLeftRight(glRenderer.getLeftRight() - 0.1f);
-                Log.d("FPS", "if(dx >= 0)");
+//                Log.d("FPS", "if(dx >= 0)");
                 glRenderer.addToYrot(1f);
             }
             if (dy == 0) {
@@ -96,11 +95,11 @@ public class MyGlActivity extends AppCompatActivity {
             } else if (dy < 0) { //w górę
 //                glRenderer.setUpDown(glRenderer.getUpDown() + (float)0.2);
                 glRenderer.addToXrot(-1f);
-                Log.d("FPS", "if(dy < 0)");
+//                Log.d("FPS", "if(dy < 0)");
             } else { // w dół
 //                glRenderer.setUpDown(glRenderer.getUpDown() + (float)-0.2);
                 glRenderer.addToXrot(1f);
-                Log.d("FPS", "if(dy >= 0)");
+//                Log.d("FPS", "if(dy >= 0)");
             }
         }
 

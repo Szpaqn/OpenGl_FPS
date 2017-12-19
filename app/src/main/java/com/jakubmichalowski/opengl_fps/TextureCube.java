@@ -1,4 +1,4 @@
-package com.jakubmichalowski.opengltriangles;
+package com.jakubmichalowski.opengl_fps;
 
 import java.io.IOException;
 import java.io.InputStream;

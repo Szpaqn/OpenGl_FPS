@@ -1,4 +1,4 @@
-package com.jakubmichalowski.opengltriangles;
+package com.jakubmichalowski.opengl_fps;
 
 import org.junit.Test;
 

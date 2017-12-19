@@ -1,4 +1,4 @@
-package com.jakubmichalowski.opengltriangles;
+package com.jakubmichalowski.opengl_fps;
 
 /**
  * Created by jakub on 04.11.17.

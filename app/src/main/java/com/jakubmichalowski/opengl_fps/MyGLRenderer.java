@@ -1,9 +1,9 @@
-package com.jakubmichalowski.opengltriangles;
+package com.jakubmichalowski.opengl_fps;
 
 import android.content.Context;
 import android.opengl.GLSurfaceView;
 import android.opengl.GLU;
-import java.lang.Math;
+import android.util.Log;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -185,11 +185,15 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 //      GLU.gluLookAt(gl, x, 0, z, 0, 0, 0, 0,1,0);  //TODO: sprawdzić http://nehe.gamedev.net/article/camera_class_tutorial/18010/ oraz https://www.opengl.org/discussion_boards/showthread.php/178047-about-gluLookAt-function-and-how-to-rotate-the-camera
 //      GLU.gluPerspective(gl, 45, x, 0.1f, 100.f);
 
+      if(zpos < 1.1f) {
+
+         zpos = 1.1f;
+      }
       gl.glRotatef(xrot, 1.0f, 0, 0);
       gl.glRotatef(yrot, 0, 1.0f, 0);
       gl.glTranslatef(-xpos,-ypos, -zpos);
 
-//      Log.d("GL", "onDrawFrame: " + String.valueOf(upDown));
+      Log.d("GL", "onDrawFrame: xrot:" + String.valueOf(xrot) + "yrot:" + String.valueOf(yrot)  + "xpos:" + String.valueOf(xpos) + "ypos:" + String.valueOf(ypos) + "zpos" + String.valueOf(zpos));
 //      gl.glRotatef(angleCube, 0.4f, 0.9f, -0.1f);
 //      gl.glRotatef(angleQuad, 1.0f, 0.0f, 0.0f); // Rotate the s                                                                                                                                                                                                                                                                                                                                                                                                                                                            quare about the x-axis
 //      square.draw(gl);                       // Draw
