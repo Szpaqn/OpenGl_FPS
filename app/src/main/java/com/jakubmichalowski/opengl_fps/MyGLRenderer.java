@@ -41,55 +41,76 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 
    private float xrot;
    private float yrot;
-   //   private float speedTriangle = 0.5f;
-//   private float angleQuad = 0.0f;
-//   private float angleTriangle = 0.0f;
+
+   private float camSpeed = 0.1f;
 
    public void goForward(){
-      float xrotrad, yrotrad;
-      yrotrad = (yrot / 180 * pi);
-      xrotrad = (xrot / 180 * pi);
-      xpos += sin(yrotrad);
-      zpos -= cos(yrotrad);
-      ypos -= sin(xrotrad);
+       float xrotrad, yrotrad;
+//       float xposT = xpos;
+//       float yposT = ypos;
+       float zposT = zpos;
+       yrotrad = (yrot / 180 * pi);
+       xrotrad = (xrot / 180 * pi);
+       xpos += sin(yrotrad) * camSpeed ;
+       zpos -= cos(yrotrad) * camSpeed;
+       ypos -= sin(xrotrad) * camSpeed;
+       if(checkIfColliding(xpos, ypos, zpos)) {
+//           xpos = xposT;
+//           ypos = yposT;
+           zpos = zposT;
+       }
    }
 
    public void goBack(){
-      float xrotrad, yrotrad;
-      yrotrad = (yrot / 180 * pi);
-      xrotrad = (xrot / 180 * pi);
-      xpos -= sin(yrotrad);
-      zpos += cos(yrotrad);
-      ypos += sin(xrotrad);
+       float xrotrad, yrotrad;
+//       float xposT = xpos;
+//       float yposT = ypos;
+       float zposT = zpos;
+       yrotrad = (yrot / 180 * pi);
+       xrotrad = (xrot / 180 * pi);
+       xpos -= sin(yrotrad) * camSpeed;
+       zpos += cos(yrotrad) * camSpeed;
+       ypos += sin(xrotrad) * camSpeed;
+       if(checkIfColliding(xpos, ypos, zpos)) {
+//           xpos = xposT;
+//           ypos = yposT;
+           zpos = zposT;
+       }
    }
 
    public void strafeLeft() {
-      float yrotrad;
-      yrotrad = (yrot / 180 * pi);
-      xpos -= cos(yrotrad) * 0.1f;
-      zpos -= sin(yrotrad) * 0.1f;
+       float yrotrad;
+       float xposT = xpos;
+//       float zposT = zpos;
+       yrotrad = (yrot / 180 * pi);
+       xpos -= cos(yrotrad) * camSpeed;
+       zpos -= sin(yrotrad) * camSpeed;
+       if(checkIfColliding(xpos, ypos, zpos)) {
+           xpos = xposT;
+//           zpos = zposT;
+       }
    }
 
    public void strafeRight() {
-      float yrotrad;
-      yrotrad = (yrot / 180 * pi);
-      xpos += cos(yrotrad) * 0.1f;
-      zpos += sin(yrotrad) * 0.1f;
+       float yrotrad;
+       float xposT = xpos;
+//       float zposT = zpos;
+       yrotrad = (yrot / 180 * pi);
+       xpos += cos(yrotrad) * camSpeed;
+       zpos += sin(yrotrad) * camSpeed;
+       if(checkIfColliding(xpos, ypos, zpos)) {
+           xpos = xposT;
+//           zpos = zposT;
+       }
    }
 
 
-//   Triangle triangle;
+
    private Pyramid pyramid;
-//   Square square;
-   private Cube cube;
 
-   // Rotational angle and speed
-//   private float speedQuad = -0.4f;
+//   private Cube cube;
+   private TextureCube cube;
 
-   private static float anglePyramid = 0; // Rotational angle in degree for pyramid
-//   private static float angleCube = 0;    // Rotational angle in degree for cube
-   private static float speedPyramid = 2.0f; // Rotational speed for pyramid
-//   private static float speedCube = -1.5f;   // Rotational speed for cube
 
    // Constructor with global application context
    public MyGLRenderer(Context context) {
@@ -100,9 +121,9 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 //      triangle = new Triangle();
       pyramid = new Pyramid();
 //      square = new Square();
-//      cube = new TextureCube();
+      cube = new TextureCube();
 //      cube2 = new Cube2();
-      cube = new Cube();
+//      cube = new Cube();
 
       xpos = 0;
       ypos = 0;
@@ -126,9 +147,9 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
       gl.glShadeModel(GL10.GL_SMOOTH);   // Enable smooth shading of color
       gl.glDisable(GL10.GL_DITHER);      // Disable dithering for better performance
   
-      // You OpenGL|ES initialization code here
-//      cube.loadTexture(gl, context);    // Load image into Texture
-//      gl.glEnable(GL10.GL_TEXTURE_2D);  // Enable texture
+//       You OpenGL|ES initialization code here
+      cube.loadTexture(gl, context);    // Load image into Texture
+      gl.glEnable(GL10.GL_TEXTURE_2D);  // Enable texture
 //
       }
    
@@ -163,52 +184,30 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 
       // You OpenGL|ES rendering code here
       gl.glLoadIdentity();    //Reset model-view matrix
-////      gl.glRotatef(angleTriangle, 0.0f, 1.0f, 0.0f); // Rotate the triangle about the upDown-axis
-////      triangle.draw(gl);                   // Draw triangle
-      gl.glRotatef(xrot, 1.0f, 0, 0);
-      gl.glRotatef(yrot, 0, 1.0f, 0);
-      gl.glTranslatef(-xpos-3,-ypos, -zpos); // Translate left and into the screen
-      pyramid.draw(gl);                              // Draw the pyramid
 
 
-      // Translate right, relative to the previous translation
-      gl.glLoadIdentity();                 // Reset the mode-view matrix
-
-//      gl.glTranslatef(x, 0, z);  // Translate right and into the screen
-//      gl.glLoadIdentity ();
-//      if(upDown < prevUD){ //w górę?
-//
-//      } else if(upDown > prevUD){ // w dół
-//
-//      }
-
-//       GLU.gluLookAt(gl, x, 0, z,leftRight,upDown,0,0,1,0);
 //      GLU.gluLookAt(gl, x, 0, z, 0, 0, 0, 0,1,0);  //TODO: sprawdzić http://nehe.gamedev.net/article/camera_class_tutorial/18010/ oraz https://www.opengl.org/discussion_boards/showthread.php/178047-about-gluLookAt-function-and-how-to-rotate-the-camera
 //      GLU.gluPerspective(gl, 45, x, 0.1f, 100.f);
-//
-      if(zpos < 1.1f) {  //blocks the camera to go through the cube
 
-         zpos = 1.1f;
-      }
+
       gl.glRotatef(xrot, 1.0f, 0, 0);
       gl.glRotatef(yrot, 0, 1.0f, 0);
       gl.glTranslatef(-xpos,-ypos, -zpos);
-
-      Log.d("GL", "onDrawFrame: xrot:" + String.valueOf(xrot) + "yrot:" + String.valueOf(yrot)  + "xpos:" + String.valueOf(xpos) + "ypos:" + String.valueOf(ypos) + "zpos" + String.valueOf(zpos));
-//      gl.glRotatef(angleCube, 0.4f, 0.9f, -0.1f);
-//      gl.glRotatef(angleQuad, 1.0f, 0.0f, 0.0f); // Rotate the s                                                                                                                                                                                                                                                                                                                                                                                                                                                            quare about the x-axis
-//      square.draw(gl);                       // Draw
-//      gl.glRotatef(angleCube, 0.4f, 0.9f, -0.1f);
-
       cube.draw(gl);
 
-//      cube2.draw();
+      gl.glLoadIdentity();                 // Reset the mode-view matrix
 
-      // Update the rotational angle after each refresh
-//      angleTriangle += speedTriangle;
-      anglePyramid += speedPyramid;
-//      angleQuad += speedQuad;
-//      angleCube += speedCube;
-//      angleCube += speedPyramid;
+
+      gl.glRotatef(xrot, 1.0f, 0, 0);
+      gl.glRotatef(yrot, 0, 1.0f, 0);
+      gl.glTranslatef(-xpos+3,-ypos, -zpos); // Translate left and into the screen
+      pyramid.draw(gl);                              // Draw the pyramid
+
+      Log.d("MyGL", "onDrawFrame: xrot: " + String.valueOf(xrot) + " yrot: " + String.valueOf(yrot)  + " xpos: " + String.valueOf(xpos) + " ypos: " + String.valueOf(ypos) + " zpos: " + String.valueOf(zpos));
+
+   }
+
+   private boolean checkIfColliding(float xpos, float ypos, float zpos) {
+      return ((zpos < 1.4f && zpos > -1.4f) && (xpos < 1.4f && xpos > -1.4f) && (ypos < 1.4f && ypos > -1.4f ));
    }
 }
